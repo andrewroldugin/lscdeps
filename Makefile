@@ -25,18 +25,21 @@ else
 	CXXFLAGS += $(GCC_CXXFLAGS)
 endif
 
-all: $(OPATH)
+all: $(ODIR) $(OPATH)
+
+$(ODIR):
+	mkdir -p $@
 
 $(OPATH): src/main.cc
 	$(BUILD)
 
-test: $(OTEST)
-	@$<
+test: $(ODIR) $(OTEST)
+	@$(OTEST)
 
 $(OTEST): src/main_test.cc
 	$(BUILD) -Isrc -lgtest
 
 clean:
-	rm -f $(OPATH) $(OTEST)
+	rm -rf $(ODIR)
 
 .PHONY: all test clean
