@@ -33,7 +33,7 @@ $(OPATH): src/main.cc
 test: $(OTEST)
 	@$<
 
-$(OTEST): test/main.cc
+$(OTEST): src/main_test.cc
 	$(BUILD) -Isrc -lgtest
 
 clean:
