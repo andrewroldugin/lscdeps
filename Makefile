@@ -19,11 +19,10 @@ BUILD = $(CXX) $(CXXFLAGS) $^ -o $@
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
-CXXFLAGS += $(GCC_CXXFLAGS)
-
 ifeq ($(CXX),clang++)
-	CXXFLAGS -= $(GCC_CXXFLAGS)
 	CXXFLAGS += $(CLANG_CXXFLAGS)
+else
+	CXXFLAGS += $(GCC_CXXFLAGS)
 endif
 
 all: $(OPATH)
