@@ -14,7 +14,7 @@ ONAME = a
 OPATH = $(ODIR)/$(ONAME)
 OTEST = $(OPATH)_test
 CXX = g++
-CXXFLAGS = -Og -Wextra -Wall -Isrc
+CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
 BUILD = $(CXX) $(CXXFLAGS) $^ -o $@
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
