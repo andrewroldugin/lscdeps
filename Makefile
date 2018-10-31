@@ -14,7 +14,7 @@ ONAME = a
 OPATH = $(ODIR)/$(ONAME)
 OTEST = $(OPATH)_test
 CXX = g++
-CXXFLAGS = -Og -Wextra -Wall
+CXXFLAGS = -Og -Wextra -Wall -Isrc
 BUILD = $(CXX) $(CXXFLAGS) $^ -o $@
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
@@ -37,7 +37,7 @@ test: $(ODIR) $(OTEST)
 	@$(OTEST)
 
 $(OTEST): src/main_test.cc
-	$(BUILD) -Isrc -lgtest
+	$(BUILD) -lgtest
 
 clean:
 	rm -rf $(ODIR)
