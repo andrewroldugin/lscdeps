@@ -18,6 +18,7 @@ CXXFLAGS = -Og -Wextra -Wall -Isrc
 BUILD = $(CXX) $(CXXFLAGS) $^ -o $@
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
+SRC =
 
 ifeq ($(CXX),clang++)
 	CXXFLAGS += $(CLANG_CXXFLAGS)
@@ -30,13 +31,13 @@ all: $(ODIR) $(OPATH)
 $(ODIR):
 	mkdir -p $@
 
-$(OPATH): src/main.cc
+$(OPATH): src/main.cc $(SRC)
 	$(BUILD)
 
 test: $(ODIR) $(OTEST)
 	@$(OTEST)
 
-$(OTEST): src/main_test.cc
+$(OTEST): src/main_test.cc $(SRC)
 	$(BUILD) -lgtest
 
 clean:
