@@ -5,8 +5,9 @@
 #include <vector>
 
 namespace lsd {
-  std::string ReadText(const char*);
-  std::vector<std::string> ReadLines(const char*);
+  std::string ReadText(const std::string&);
+  std::vector<std::string> ReadLines(const std::string&);
+  std::vector<std::string> ParseIncludes(const std::string& s);
 }
 
 #endif  // LSD_FILE_H

@@ -15,3 +15,10 @@ TEST(ReadTextTest, ReadFileLines) {
   std::vector<std::string> expected = {"one", "two", "three"};
   EXPECT_THAT(actual, ::testing::ContainerEq(expected));
 }
+
+TEST(PreprocessorTest, ParseIncludes) {
+  std::string file = "data/file_includes/file";
+  auto expected = ReadLines(file + ".inc");
+  auto actual = ParseIncludes(ReadText(file + ".h"));
+  EXPECT_THAT(actual, ::testing::ContainerEq(expected));
+}
