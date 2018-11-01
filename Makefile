@@ -26,6 +26,7 @@ test: src/main_tests
 	@$<
 
 clean:
-	rm -rf src/*.o src/main src/main_tests
+	find src -name *.o -delete
+	rm -f src/main src/main_tests
 
 .PHONY: all test clean
