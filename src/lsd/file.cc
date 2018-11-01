@@ -9,3 +9,7 @@ std::string lsd::ReadText(const char* filename) {
   buffer << t.rdbuf();
   return buffer.str();
 }
+
+std::vector<std::string> lsd::ReadLines(const char* filename) {
+  return {};
+}
