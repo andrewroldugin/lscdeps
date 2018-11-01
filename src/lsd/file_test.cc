@@ -1,3 +1,4 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "lsd/file.h"
@@ -10,5 +11,7 @@ TEST(ReadTextTest, ReadFileToString) {
 }
 
 TEST(ReadTextTest, ReadFileLines) {
-  auto lines = ReadLines("data/read_text/file.tx");
+  auto actual = ReadLines("data/read_text/file.txt");
+  std::vector<std::string> expected = {"one", "two", "three"};
+  EXPECT_THAT(actual, ::testing::ContainerEq(expected));
 }
