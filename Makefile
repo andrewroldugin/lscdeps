@@ -9,13 +9,9 @@
 # $^ name of all prerequisites with duplicates removed
 # $< name of the first prerequisite
 
-ODIR = out
-ONAME = a
-OPATH = $(ODIR)/$(ONAME)
-OTEST = $(OPATH)_test
 CXX = g++
-CXXFLAGS = -Og -Wextra -Wall
-BUILD = $(CXX) $(CXXFLAGS) $^ -o $@
+CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
+LDLIBS = -lgtest
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
@@ -25,18 +21,12 @@ else
 	CXXFLAGS += $(GCC_CXXFLAGS)
 endif
 
-all: $(OPATH)
+all: src/lsd
 
-$(OPATH): src/main.cc
-	$(BUILD)
-
-test: $(OTEST)
+test: src/lsd_tests
 	@$<
 
-$(OTEST): src/main_test.cc
-	$(BUILD) -Isrc -lgtest
-
 clean:
-	rm -f $(OPATH) $(OTEST)
+	rm -rf src/*.o src/lsd src/lsd_tests
 
 .PHONY: all test clean
