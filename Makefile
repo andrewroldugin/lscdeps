@@ -21,12 +21,12 @@ else
 	CXXFLAGS += $(GCC_CXXFLAGS)
 endif
 
-all: src/lsd
+all: src/main
 
-test: src/lsd_tests
+test: src/main_tests
 	@$<
 
 clean:
-	rm -rf src/*.o src/lsd src/lsd_tests
+	rm -rf src/*.o src/main src/main_tests
 
 .PHONY: all test clean
