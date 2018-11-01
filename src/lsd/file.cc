@@ -15,7 +15,7 @@ std::vector<std::string> lsd::ReadLines(const std::string& filename) {
   std::string str;
   std::vector<std::string> lines;
   while (std::getline(file, str)) {
-      lines.push_back(str);
+    lines.push_back(str);
   }
   return lines;
 }
