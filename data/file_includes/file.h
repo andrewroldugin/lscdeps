@@ -5,9 +5,7 @@
 #   include    <fstream>     
        #    include <sys/event.h>     
 
-#define SYSTEM_H "system.h"
-
-#include SYSTEM_H
+#include "dir with spaces/system.h"
 
 #include "same_dir_file.h"   
 #include"./../../relative/path/file.h"    
