@@ -1,8 +1,26 @@
 #include "lsd/processor.h"
 
 #include <fstream>
+#include <iostream>
 #include <regex>
 #include <sstream>
+
+#include "lsd/file.h"
+
+lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
+  auto filenames = lsd::ParseIncludes(lsd::ReadText(file.path));
+  for (const auto& name:filenames) {
+    file.includes.push_back(std::make_unique<lsd::File>(name));
+  }
+  return file;
+}
+
+void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
+  std::cout << indent << f.path << std::endl;
+  for (const auto& incl:f.includes) {
+    PrintFile(*incl.get(), indent + tab_);
+  }
+ }
 
 std::string lsd::ReadText(const std::string& filename) {
   std::ifstream t(filename);
