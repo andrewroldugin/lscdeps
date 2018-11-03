@@ -19,6 +19,7 @@ TEST(ProcessorTest, ReadFileLines) {
 TEST(ProcessorTest, ParseIncludes) {
   std::string file = "data/file_includes/file";
   auto expected = ReadLines(file + ".inc");
-  auto actual = ParseIncludes(ReadText(file + ".h"));
+  std::vector<std::string> actual;
+  ParseIncludes(ReadText(file + ".h"), actual);
   EXPECT_THAT(actual, ::testing::ContainerEq(expected));
 }
