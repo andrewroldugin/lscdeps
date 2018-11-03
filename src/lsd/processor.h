@@ -1,5 +1,5 @@
-#ifndef LSD_FILE_H
-#define LSD_FILE_H
+#ifndef LSD_PROCESSOR_H
+#define LSD_PROCESSOR_H
 
 #include <string>
 #include <vector>
@@ -10,4 +10,4 @@ namespace lsd {
   std::vector<std::string> ParseIncludes(const std::string&);
 }
 
-#endif  // LSD_FILE_H
+#endif  // LSD_PROCESSOR_H

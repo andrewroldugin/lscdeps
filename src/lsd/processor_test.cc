@@ -1,16 +1,16 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "lsd/file.h"
+#include "lsd/processor.h"
 
 using namespace lsd;
 
-TEST(ReadTextTest, ReadFileToString) {
+TEST(ProcessorTest, ReadFileToString) {
   std::string expected = "one\ntwo\nthree\n";
   EXPECT_EQ(expected, ReadText("data/read_text/file.txt"));
 }
 
-TEST(ReadTextTest, ReadFileLines) {
+TEST(ProcessorTest, ReadFileLines) {
   auto actual = ReadLines("data/read_text/file.txt");
   std::vector<std::string> expected = {"one", "two", "three"};
   EXPECT_THAT(actual, ::testing::ContainerEq(expected));

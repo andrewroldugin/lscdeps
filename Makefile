@@ -25,7 +25,7 @@ all: src/main
 test: src/main_tests
 	@$<
 
-src/main_tests: src/main_tests.o src/lsd/file_test.o src/lsd/file.o
+src/main_tests: src/main_tests.o src/lsd/processor_test.o src/lsd/processor.o
 
 clean:
 	find src -name *.o -delete
