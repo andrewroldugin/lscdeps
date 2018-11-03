@@ -2,8 +2,8 @@
 #
 # Project can be built with gcc and clang compiler.
 # g++ is used by default.
-# To use clang set CC:
-# make CC=clang
+# To use clang set CXX:
+# make CXX=clang++
 #
 # $@ name of the target
 # $^ name of all prerequisites with duplicates removed
@@ -14,7 +14,7 @@ LDLIBS = -lgtest -lstdc++
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
-ifeq ($(CC),clang)
+ifeq ($(CXX),clang++)
 	CXXFLAGS += $(CLANG_CXXFLAGS)
 else
 	CXXFLAGS += $(GCC_CXXFLAGS)
