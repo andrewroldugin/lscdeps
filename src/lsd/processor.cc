@@ -8,7 +8,10 @@
 #include "lsd/file.h"
 
 lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
-  lsd::ParseIncludes(lsd::ReadText(file.path), includes_);
+  std::string text = lsd::RemoveSingleLineComments(
+                     lsd::RemoveMultiLineComments(
+                     lsd::ReadText(file.path)));
+  lsd::ParseIncludes(text, includes_);
   for (const auto& incl:includes_) {
     file.files.push_back(std::make_unique<lsd::File>(incl));
   }
