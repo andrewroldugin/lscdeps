@@ -1,0 +1,13 @@
+/*
+#include <iostream>
+#include <string>
+#include <vector>
+*/
+
+# /* comment */ include <system> /* #include <bsd_system> */
+
+/* some multi
+line
+comment */
+
+#define DEF

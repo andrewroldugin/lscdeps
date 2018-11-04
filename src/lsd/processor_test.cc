@@ -1,0 +1,37 @@
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "lsd/processor.h"
+
+using namespace lsd;
+
+TEST(ProcessorTest, ReadFileToString) {
+  std::string expected = "one\ntwo\nthree\n";
+  EXPECT_EQ(expected, ReadText("data/read_text/file.txt"));
+}
+
+TEST(ProcessorTest, ReadFileLines) {
+  auto actual = ReadLines("data/read_text/file.txt");
+  std::vector<std::string> expected = {"one", "two", "three"};
+  EXPECT_THAT(actual, ::testing::ContainerEq(expected));
+}
+
+TEST(ProcessorTest, ParseIncludes) {
+  std::string file = "data/file_includes/file";
+  auto expected = ReadLines(file + ".inc");
+  std::vector<std::string> actual;
+  ParseIncludes(ReadText(file + ".h"), actual);
+  EXPECT_THAT(actual, ::testing::ContainerEq(expected));
+}
+
+TEST(ProcessorTest, RemoveMultiLineComments) {
+  std::string file = "data/file_includes/multiline_comments";
+  std::string s = ReadText(file + ".in");
+  EXPECT_EQ(ReadText(file + ".out"), RemoveMultiLineComments(s));
+}
+
+TEST(ProcessorTest, RemoveSingleLineComments) {
+  std::string file = "data/file_includes/singleline_comments";
+  std::string s = ReadText(file + ".in");
+  EXPECT_EQ(ReadText(file + ".out"), RemoveSingleLineComments(s));
+}

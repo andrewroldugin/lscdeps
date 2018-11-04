@@ -9,9 +9,8 @@
 # $^ name of all prerequisites with duplicates removed
 # $< name of the first prerequisite
 
-CXX = g++
 CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
-LDLIBS = -lgtest
+LDLIBS = -lgtest -lstdc++
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
@@ -21,12 +20,18 @@ else
 	CXXFLAGS += $(GCC_CXXFLAGS)
 endif
 
-all: src/lsd
+all: src/main
 
-test: src/lsd_tests
+test: src/main_tests
 	@$<
 
+src/main: src/main.o src/lsd/processor.o src/lsd/file.o
+
+src/main_tests: src/main_tests.o src/lsd/processor_test.o src/lsd/processor.o \
+		src/lsd/file.o
+
 clean:
-	rm -rf src/*.o src/lsd src/lsd_tests
+	find src -name *.o -delete
+	rm -f src/main src/main_tests
 
 .PHONY: all test clean
