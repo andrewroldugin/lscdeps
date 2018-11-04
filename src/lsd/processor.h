@@ -8,8 +8,8 @@ namespace lsd {
   std::string ReadText(const std::string&);
   std::vector<std::string> ReadLines(const std::string&);
   void ParseIncludes(const std::string&, std::vector<std::string>&);
-  std::string RemoveMultiLineComments(std::string);
-  std::string RemoveSingleLineComments(std::string);  
+  std::string RemoveMultiLineComments(const std::string&);
+  std::string RemoveSingleLineComments(const std::string&);
 
   class File;
   class Processor;

@@ -53,12 +53,12 @@ void lsd::ParseIncludes(const std::string& s, std::vector<std::string>& out) {
    }
 }
 
-std::string lsd::RemoveMultiLineComments(std::string s) {
+std::string lsd::RemoveMultiLineComments(const std::string& s) {
   std::regex re("/\\*[\\s\\S]*?\\*/");
   return std::regex_replace(s, re, "");
 }
 
-std::string lsd::RemoveSingleLineComments(std::string s) {
+std::string lsd::RemoveSingleLineComments(const std::string& s) {
   std::regex re("//.*");
   return std::regex_replace(s, re, "");
 }
