@@ -43,7 +43,6 @@ std::vector<std::string> lsd::ReadLines(const std::string& filename) {
 void lsd::ParseIncludes(const std::string& s, std::vector<std::string>& out) {
    std::smatch match;
    std::regex regex("#\\s*include\\s*([\"<]{1}[\\w\\s/.]+[\">]{1})");
-   std::vector<std::string> includes;
    auto iter = s.begin();
    while (std::regex_search(iter, s.end(), match, regex)) {
      out.push_back(match[1]);
