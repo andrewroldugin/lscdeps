@@ -8,18 +8,18 @@
 #include "lsd/file.h"
 
 lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
-  lsd::ParseIncludes(lsd::ReadText(file.path), filenames_);
-  for (const auto& name:filenames_) {
-    file.includes.push_back(std::make_unique<lsd::File>(name));
+  lsd::ParseIncludes(lsd::ReadText(file.path), includes_);
+  for (const auto& incl:includes_) {
+    file.files.push_back(std::make_unique<lsd::File>(incl));
   }
-  filenames_.clear();
+  includes_.clear();
   return file;
 }
 
 void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
   std::cout << indent << f.path << std::endl;
-  for (const auto& incl:f.includes) {
-    PrintFile(*incl.get(), indent + tab_);
+  for (const auto& ff:f.files) {
+    PrintFile(*ff, indent + tab_);
   }
  }
 

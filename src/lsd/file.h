@@ -11,7 +11,7 @@ namespace lsd {
 
 struct lsd::File {
   std::string path;
-  std::vector<std::unique_ptr<lsd::File>> includes;
+  std::vector<std::unique_ptr<lsd::File>> files;
   File(const std::string&);
 };
 

@@ -16,7 +16,7 @@ namespace lsd {
 class lsd::Processor {
   std::string tab_ = "  ";
   // temp storage for file includes
-  std::vector<std::string> filenames_;
+  std::vector<std::string> includes_;
 public:
   lsd::File& ProcessFile(lsd::File&);
   void PrintFile(const lsd::File&, std::string indent = "");
