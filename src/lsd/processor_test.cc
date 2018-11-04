@@ -34,3 +34,7 @@ TEST(ProcessorTest, RemoveSingleLineComments) {
   std::string s = ReadText(file + ".in");
   EXPECT_EQ(ReadText(file + ".out"), RemoveSingleLineComments(s));
 }
+
+TEST(ProcessorTest, GetFileName) {
+  EXPECT_EQ("path/to/file", GetFileName("<path/to/file>"));
+}

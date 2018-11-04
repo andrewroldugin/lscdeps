@@ -12,7 +12,10 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
                      lsd::RemoveMultiLineComments(
                      lsd::ReadText(file.path)));
   for (const auto& incl:lsd::ParseIncludes(text)) {
-    file.files.push_back(std::make_unique<lsd::File>(incl));
+    auto incl_filename = lsd::GetFileName(incl);
+    auto incl_file = std::make_unique<lsd::File>(incl_filename);
+    ProcessFile(*incl_file);
+    file.files.push_back(std::move(incl_file));
   }
   return file;
 }
@@ -61,4 +64,8 @@ std::string lsd::RemoveMultiLineComments(const std::string& s) {
 std::string lsd::RemoveSingleLineComments(const std::string& s) {
   std::regex re("//.*");
   return std::regex_replace(s, re, "");
+}
+
+std::string lsd::GetFileName(const std::string& include) {
+  return include.substr(1, include.size() - 2);
 }

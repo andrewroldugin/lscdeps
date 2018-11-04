@@ -10,6 +10,7 @@ namespace lsd {
   std::vector<std::string> ParseIncludes(const std::string&);
   std::string RemoveMultiLineComments(const std::string&);
   std::string RemoveSingleLineComments(const std::string&);
+  std::string GetFileName(const std::string&);
 
   class File;
   class Processor;
