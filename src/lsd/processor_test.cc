@@ -23,3 +23,15 @@ TEST(ProcessorTest, ParseIncludes) {
   ParseIncludes(ReadText(file + ".h"), actual);
   EXPECT_THAT(actual, ::testing::ContainerEq(expected));
 }
+
+TEST(ProcessorTest, RemoveMultiLineComments) {
+  std::string file = "data/file_includes/multiline_comments";
+  std::string s = ReadText(file + ".in");
+  EXPECT_EQ(ReadText(file + ".out"), RemoveMultiLineComments(s));
+}
+
+TEST(ProcessorTest, RemoveSingleLineComments) {
+  std::string file = "data/file_includes/singleline_comments";
+  std::string s = ReadText(file + ".in");
+  EXPECT_EQ(ReadText(file + ".out"), RemoveSingleLineComments(s));
+}

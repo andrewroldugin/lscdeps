@@ -1,0 +1,11 @@
+// #include <iostream>
+// #include <string>
+#include <vector>  // comment
+
+# include <system> // #include <bsd_system>
+
+// single
+// line
+// comment
+
+#define DEF
