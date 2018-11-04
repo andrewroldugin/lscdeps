@@ -11,11 +11,9 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
   std::string text = lsd::RemoveSingleLineComments(
                      lsd::RemoveMultiLineComments(
                      lsd::ReadText(file.path)));
-  lsd::ParseIncludes(text, includes_);
-  for (const auto& incl:includes_) {
+  for (const auto& incl:lsd::ParseIncludes(text)) {
     file.files.push_back(std::make_unique<lsd::File>(incl));
   }
-  includes_.clear();
   return file;
 }
 
@@ -43,14 +41,16 @@ std::vector<std::string> lsd::ReadLines(const std::string& filename) {
   return lines;
 }
 
-void lsd::ParseIncludes(const std::string& s, std::vector<std::string>& out) {
+std::vector<std::string> lsd::ParseIncludes(const std::string& s) {
    std::smatch match;
    std::regex regex("#\\s*include\\s*([\"<]{1}[\\w\\s/.]+[\">]{1})");
    auto iter = s.begin();
+   std::vector<std::string> out;
    while (std::regex_search(iter, s.end(), match, regex)) {
      out.push_back(match[1]);
      iter = match[0].second;
    }
+   return out;
 }
 
 std::string lsd::RemoveMultiLineComments(const std::string& s) {
