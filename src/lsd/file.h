@@ -1,18 +1,21 @@
 #ifndef LSD_FILE_H
 #define LSD_FILE_H
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
+
+namespace fs = std::filesystem;
 
 namespace lsd {
   class File;
 }
 
 struct lsd::File {
-  std::string path;
+  fs::path path;
   std::vector<std::unique_ptr<lsd::File>> files;
-  File(const std::string&);
+  File(const fs::path&);
 };
 
 #endif  // LSD_FILE_H

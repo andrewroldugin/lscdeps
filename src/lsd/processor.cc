@@ -12,30 +12,45 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
                      lsd::RemoveMultiLineComments(
                      lsd::ReadText(file.path)));
   for (const auto& incl:lsd::ParseIncludes(text)) {
-    auto incl_filename = lsd::GetFileName(incl);
-    auto incl_file = std::make_unique<lsd::File>(incl_filename);
-    ProcessFile(*incl_file);
-    file.files.push_back(std::move(incl_file));
+    auto f = std::make_unique<lsd::File>(SearchIncludePath(file.path, incl));
+    ProcessFile(*f);
+    file.files.push_back(std::move(f));
   }
   return file;
 }
 
 void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
-  std::cout << indent << f.path << std::endl;
+  std::cout << indent << f.path.filename() << std::endl;
   for (const auto& ff:f.files) {
     PrintFile(*ff, indent + tab_);
   }
  }
 
-std::string lsd::ReadText(const std::string& filename) {
-  std::ifstream t(filename);
+fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
+                                           const std::string& include) {
+  // don't forget to check absolute path for include
+  auto filename = GetFileName(include);
+  if (fs::exists(filename)) {
+    return fs::absolute(filename);
+  } else {
+    // log error
+    // maybe replace with exception later
+    std::cerr << "Failed at " << path
+              << " => #include " << include
+              << std::endl;
+    return filename;
+  }
+}
+
+std::string lsd::ReadText(const fs::path& path) {
+  std::ifstream t(path);
   std::stringstream buffer;
   buffer << t.rdbuf();
   return buffer.str();
 }
 
-std::vector<std::string> lsd::ReadLines(const std::string& filename) {
-  std::ifstream file(filename);
+std::vector<std::string> lsd::ReadLines(const fs::path& path) {
+  std::ifstream file(path);
   std::string str;
   std::vector<std::string> lines;
   while (std::getline(file, str)) {
@@ -66,6 +81,6 @@ std::string lsd::RemoveSingleLineComments(const std::string& s) {
   return std::regex_replace(s, re, "");
 }
 
-std::string lsd::GetFileName(const std::string& include) {
+fs::path lsd::GetFileName(const std::string& include) {
   return include.substr(1, include.size() - 2);
 }

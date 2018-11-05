@@ -10,7 +10,7 @@
 # $< name of the first prerequisite
 
 CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
-LDLIBS = -lgtest -lstdc++
+LDLIBS = -lgtest -lstdc++fs -lstdc++
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
