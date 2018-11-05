@@ -12,9 +12,14 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
                      lsd::RemoveMultiLineComments(
                      lsd::ReadText(file.path)));
   for (const auto& incl:lsd::ParseIncludes(text)) {
-    auto f = std::make_unique<lsd::File>(SearchIncludePath(file.path, incl));
-    ProcessFile(*f);
-    file.files.push_back(std::move(f));
+    try {
+      auto f = std::make_unique<lsd::File>(SearchIncludePath(file.path, incl));
+      ProcessFile(*f);
+      file.files.push_back(std::move(f));
+    } catch (std::exception&) {
+      std::cerr << "Failed at " << file.path << " => #include " << incl
+                << std::endl;
+    }
   }
   return file;
 }
@@ -32,14 +37,8 @@ fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
   auto filename = GetFileName(include);
   if (fs::exists(filename)) {
     return fs::absolute(filename);
-  } else {
-    // log error
-    // maybe replace with exception later
-    std::cerr << "Failed at " << path
-              << " => #include " << include
-              << std::endl;
-    return filename;
   }
+  throw std::exception();
 }
 
 std::string lsd::ReadText(const fs::path& path) {
