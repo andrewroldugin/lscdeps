@@ -9,7 +9,7 @@
 namespace fs = std::filesystem;
 
 namespace lsd {
-  class File;
+  struct File;
 }
 
 struct lsd::File {
