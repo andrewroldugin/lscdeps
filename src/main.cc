@@ -27,7 +27,7 @@ public:
               << std::endl << std::endl;
     std::list<Arg*> args = c.getArgList();
     for (ArgListIterator it = args.begin(); it != args.end(); it++)
-      std::cout << (*it)->longID()
+      std::cout << "  " << (*it)->longID()
                 << "  (" << (*it)->getDescription() << ")" << std::endl;
   }
 
