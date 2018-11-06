@@ -14,6 +14,7 @@ namespace lsd {
   std::string RemoveMultiLineComments(const std::string&);
   std::string RemoveSingleLineComments(const std::string&);
   fs::path GetFileName(const std::string&);
+  bool IsParentInclude(const std::string&);
 
   class File;
   class Processor;
@@ -21,6 +22,7 @@ namespace lsd {
 
 class lsd::Processor {
   std::string tab_ = "  ";
+  std::vector<fs::path> include_dirs_;
 private:
   fs::path SearchIncludePath(const fs::path&, const std::string&);
 public:

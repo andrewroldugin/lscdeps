@@ -38,3 +38,8 @@ TEST(ProcessorTest, RemoveSingleLineComments) {
 TEST(ProcessorTest, GetFileName) {
   EXPECT_EQ("path/to/file", GetFileName("<path/to/file>"));
 }
+
+TEST(ProcessorTest, IsParentInclude) {
+  EXPECT_TRUE(IsParentInclude("\"include.h\""));
+  EXPECT_FALSE(IsParentInclude("<iostream>"));
+}

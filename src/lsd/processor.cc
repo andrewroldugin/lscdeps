@@ -33,11 +33,28 @@ void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
 
 fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
                                            const std::string& include) {
-  // don't forget to check absolute path for include
   auto filename = GetFileName(include);
-  if (fs::exists(filename)) {
-    return fs::absolute(filename);
+  fs::path out;
+  if (filename.is_absolute()) {
+    if (fs::exists(filename)) out = filename;
+  } else {
+    if (lsd::IsParentInclude(include)) {
+      auto incpath = path.parent_path();
+      incpath /= filename;
+      if (fs::exists(incpath)) out = incpath;
+    }
+    if (out.empty()) {
+      for (auto incpath:include_dirs_) {
+        incpath /= filename;
+        if (fs::exists(incpath)) {
+          out = incpath;
+          break;
+        }
+      }
+    }
   }
+  if (!out.empty())
+    return out;
   throw std::exception();
 }
 
@@ -82,4 +99,8 @@ std::string lsd::RemoveSingleLineComments(const std::string& s) {
 
 fs::path lsd::GetFileName(const std::string& include) {
   return include.substr(1, include.size() - 2);
+}
+
+bool lsd::IsParentInclude(const std::string& include) {
+  return include[0] != '<';
 }
