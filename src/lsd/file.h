@@ -10,9 +10,17 @@ namespace fs = std::filesystem;
 
 namespace lsd {
   struct File;
+  enum class FileProcessState;
 }
 
+enum class lsd::FileProcessState {
+  STANDBY,
+  PROCESSING,
+  PROCESSED
+};
+
 struct lsd::File {
+  FileProcessState state = FileProcessState::STANDBY;
   fs::path path;
   std::vector<std::unique_ptr<lsd::File>> files;
   File(const fs::path&);
