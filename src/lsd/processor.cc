@@ -58,6 +58,10 @@ fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
   throw std::exception();
 }
 
+void lsd::Processor::AddIncludeDir(const fs::path& dir) {
+  include_dirs_.push_back(dir);
+}
+
 std::string lsd::ReadText(const fs::path& path) {
   std::ifstream t(path);
   std::stringstream buffer;

@@ -9,7 +9,7 @@
 # $^ name of all prerequisites with duplicates removed
 # $< name of the first prerequisite
 
-CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
+CXXFLAGS = -Og -Wextra -Wall -Isrc -Ithird_party/tclap/include -std=c++1z
 LDLIBS = -lgtest -lstdc++fs -lstdc++
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
