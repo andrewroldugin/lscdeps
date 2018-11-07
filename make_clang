@@ -1,0 +1,2 @@
+#!/bin/bash
+make CXX=clang++ CC=clang $@
