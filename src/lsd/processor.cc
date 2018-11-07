@@ -60,9 +60,8 @@ fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
       }
     }
   }
-  if (!out.empty())
-    return out;
-  throw IncludeError("Not found", path, include);
+  if (out.empty()) throw IncludeError("Not found", path, include);
+  return out;
 }
 
 void lsd::Processor::AddIncludeDir(const fs::path& dir) {
