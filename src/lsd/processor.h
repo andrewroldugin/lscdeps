@@ -16,7 +16,7 @@ namespace lsd {
   fs::path GetFileName(const std::string&);
   bool IsParentInclude(const std::string&);
 
-  class File;
+  struct File;
   class Processor;
 }
 
