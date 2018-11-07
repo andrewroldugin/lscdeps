@@ -17,9 +17,9 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
                      lsd::ReadText(file.path)));
   for (const auto& incl:lsd::ParseIncludes(text)) {
     try {
-      File* f = GetFile(SearchIncludePath(file.path, incl));
-      ProcessFile(*f);
-      file.files.push_back(f);
+      File& f = GetFile(SearchIncludePath(file.path, incl));
+      ProcessFile(f);
+      file.files.push_back(&f);
     } catch (std::exception&) {
       std::cerr << "Failed at " << file.path << " => #include " << incl
                 << std::endl;
@@ -31,7 +31,7 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
 
 void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
   std::cout << indent << f.path.filename().string() << std::endl;
-  for (const auto& ff:f.files) {
+  for (const auto* ff:f.files) {
     PrintFile(*ff, indent + tab_);
   }
  }
@@ -67,7 +67,7 @@ void lsd::Processor::AddIncludeDir(const fs::path& dir) {
   include_dirs_.push_back(dir);
 }
 
-lsd::File* lsd::Processor::GetFile(const fs::path& path) {
+lsd::File& lsd::Processor::GetFile(const fs::path& path) {
   File* out;
   fs::path abs_path = fs::absolute(path);
   std::string abs_path_str = abs_path.string();
@@ -78,7 +78,7 @@ lsd::File* lsd::Processor::GetFile(const fs::path& path) {
   } else {
     out = iter->second.get();
   }
-  return out;
+  return *out;
 }
 
 std::string lsd::ReadText(const fs::path& path) {

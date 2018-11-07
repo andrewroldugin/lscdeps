@@ -31,7 +31,7 @@ public:
   lsd::File& ProcessFile(lsd::File&);
   void PrintFile(const lsd::File&, std::string indent = "");
   void AddIncludeDir(const fs::path&);
-  File* GetFile(const fs::path&);
+  File& GetFile(const fs::path&);
 };
 
 #endif  // LSD_PROCESSOR_H

@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     }
 
     for (const auto& arg:filesarg.getValue()) {
-      p.PrintFile(p.ProcessFile(*p.GetFile(arg)));
+      p.PrintFile(p.ProcessFile(p.GetFile(arg)));
     }
   } catch (ArgException &e) {
     std::cerr << "error: " << e.error() << " for arg " << e.argId()
