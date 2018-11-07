@@ -32,7 +32,7 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
 
 void lsd::Processor::PrintFile(const lsd::File& f, std::string indent) {
   std::cout << indent << f.path.filename().string() << std::endl;
-  for (const auto* ff:f.files) {
+  for (auto ff:f.files) {
     PrintFile(*ff, indent + tab_);
   }
  }
