@@ -29,7 +29,7 @@ private:
   fs::path SearchIncludePath(const fs::path&, const std::string&);
 public:
   File& ProcessFile(File&);
-  void PrintFile(const File&, const std::string& indent = "");
+  void PrintFile(const File&, const std::string& indent = "") const;
   void PrintFile(const fs::path&);
   void PrintStat() const;
   void AddIncludeDir(const fs::path&);
