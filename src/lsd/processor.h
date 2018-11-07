@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace fs = std::filesystem;
 
@@ -23,12 +24,14 @@ namespace lsd {
 class lsd::Processor {
   std::string tab_ = "  ";
   std::vector<fs::path> include_dirs_;
+  std::unordered_map<std::string, std::unique_ptr<File>> files_;
 private:
   fs::path SearchIncludePath(const fs::path&, const std::string&);
 public:
   lsd::File& ProcessFile(lsd::File&);
   void PrintFile(const lsd::File&, std::string indent = "");
   void AddIncludeDir(const fs::path&);
+  File* GetFile(const fs::path&);
 };
 
 #endif  // LSD_PROCESSOR_H

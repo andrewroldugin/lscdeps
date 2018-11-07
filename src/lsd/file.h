@@ -22,7 +22,7 @@ enum class lsd::FileProcessState {
 struct lsd::File {
   FileProcessState state = FileProcessState::STANDBY;
   fs::path path;
-  std::vector<std::unique_ptr<lsd::File>> files;
+  std::vector<File*> files;
   File(const fs::path&);
 };
 

@@ -8,19 +8,24 @@
 #include "lsd/file.h"
 
 lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
+  if (file.state == FileProcessState::PROCESSED) return file;
+
+  file.state = FileProcessState::PROCESSING;
+
   std::string text = lsd::RemoveSingleLineComments(
                      lsd::RemoveMultiLineComments(
                      lsd::ReadText(file.path)));
   for (const auto& incl:lsd::ParseIncludes(text)) {
     try {
-      auto f = std::make_unique<lsd::File>(SearchIncludePath(file.path, incl));
+      File* f = GetFile(SearchIncludePath(file.path, incl));
       ProcessFile(*f);
-      file.files.push_back(std::move(f));
+      file.files.push_back(f);
     } catch (std::exception&) {
       std::cerr << "Failed at " << file.path << " => #include " << incl
                 << std::endl;
     }
   }
+  file.state = FileProcessState::PROCESSED;
   return file;
 }
 
@@ -60,6 +65,20 @@ fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
 
 void lsd::Processor::AddIncludeDir(const fs::path& dir) {
   include_dirs_.push_back(dir);
+}
+
+lsd::File* lsd::Processor::GetFile(const fs::path& path) {
+  File* out;
+  fs::path abs_path = fs::absolute(path);
+  std::string abs_path_str = abs_path.string();
+  auto iter = files_.find(abs_path_str);
+  if (iter == files_.end()) {
+    files_[abs_path_str] = std::make_unique<File>(abs_path);
+    out = files_[abs_path_str].get();
+  } else {
+    out = iter->second.get();
+  }
+  return out;
 }
 
 std::string lsd::ReadText(const fs::path& path) {
