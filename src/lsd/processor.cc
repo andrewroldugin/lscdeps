@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "lsd/file.h"
+#include "lsd/include_error.h"
 
 lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
   if (file.state == FileProcessState::PROCESSED) return file;
@@ -20,9 +21,8 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
       File& f = GetFile(SearchIncludePath(file.path, incl));
       ProcessFile(f);
       file.files.push_back(&f);
-    } catch (std::exception&) {
-      std::cerr << "Failed at " << file.path << " => #include " << incl
-                << std::endl;
+    } catch (const IncludeError& e) {
+      std::cerr << e.what() << std::endl;
     }
   }
   file.state = FileProcessState::PROCESSED;
@@ -60,7 +60,7 @@ fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
   }
   if (!out.empty())
     return out;
-  throw std::exception();
+  throw IncludeError("Not found", path, include);
 }
 
 void lsd::Processor::AddIncludeDir(const fs::path& dir) {

@@ -25,10 +25,10 @@ all: src/main
 test: src/main_tests
 	@$<
 
-src/main: src/main.o src/lsd/processor.o src/lsd/file.o
+src/main: src/main.o src/lsd/processor.o src/lsd/file.o src/lsd/include_error.o
 
 src/main_tests: src/main_tests.o src/lsd/processor_test.o src/lsd/processor.o \
-		src/lsd/file.o
+		src/lsd/file.o src/lsd/include_error.o
 
 clean:
 	find src -name *.o -delete
