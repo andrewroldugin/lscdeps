@@ -21,8 +21,7 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
       File& f = GetFile(SearchIncludePath(file.path, incl));
       if (f.state == FileProcessState::PROCESSING)
         throw IncludeError("Cycle", file.path, incl);
-      ProcessFile(f);
-      file.files.push_back(&f);
+      file.files.push_back(&ProcessFile(f));
     } catch (const IncludeError& e) {
       std::cerr << e.what() << std::endl;
     }
