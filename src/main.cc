@@ -11,8 +11,7 @@ using namespace TCLAP;
 
 class LsdOutput: public StdOutput {
 public:
-  virtual void failure(CmdLineInterface& c, ArgException& e) {
-    static_cast<void>(c); // Ignore input, don't warn
+  virtual void failure(CmdLineInterface&, ArgException& e) {
     std::cerr << "Something went wrong: " << std::endl
               << e.what() << std::endl;
     exit(1);
