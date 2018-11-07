@@ -20,6 +20,7 @@ enum class lsd::FileProcessState {
 };
 
 struct lsd::File {
+  int counter = 0;
   FileProcessState state = FileProcessState::STANDBY;
   fs::path path;
   std::vector<const File*> files;

@@ -21,6 +21,7 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
       File& f = GetFile(SearchIncludePath(file.path, incl));
       if (f.state == FileProcessState::PROCESSING)
         throw IncludeError("Cycle", file.path, incl);
+      ++f.counter;
       file.files.push_back(&ProcessFile(f));
     } catch (const IncludeError& e) {
       std::cerr << e.what() << std::endl;
@@ -99,6 +100,27 @@ void lsd::Processor::PrintFile(const fs::path& path) {
   } else {
     PrintFile(ProcessFile(GetFile(path)));
   }
+}
+
+void lsd::Processor::PrintStat() const {
+  std::vector<const File*> v;
+  int size = std::count_if(files_.cbegin(), files_.cend(),
+                           [](const auto& p){return p.second->counter > 1;});
+  v.reserve(size);
+  // How to make filtermap?
+  // use imperative way instead
+  for (const auto& p:files_) {
+    if (p.second->counter > 1) {
+      v.push_back(p.second.get());
+    }
+  }
+  std::sort(v.begin(), v.end(),
+	    [](auto a, auto b) -> bool{return a->counter > b->counter;});
+  for_each(v.begin(), v.end(),
+	   [](auto f){
+	     std::cout << f->path.filename().string() << " - " << f->counter
+		       << std::endl;
+	   });
 }
 
 std::string lsd::ReadText(const fs::path& path) {

@@ -68,6 +68,7 @@ int main(int argc, char* argv[]) {
     } else {
       p.PrintFile(fs::current_path());
     }
+    p.PrintStat();
   } catch (ArgException &e) {
     std::cerr << "error: " << e.error() << " for arg " << e.argId()
               << std::endl;
