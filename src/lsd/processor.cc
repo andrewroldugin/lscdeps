@@ -13,10 +13,10 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
 
   file.state = FileProcessState::PROCESSING;
 
-  std::string text = lsd::RemoveSingleLineComments(
-                     lsd::RemoveMultiLineComments(
-                     lsd::ReadText(file.path)));
-  for (const auto& incl:lsd::ParseIncludes(text)) {
+  std::string text = RemoveSingleLineComments(
+                     RemoveMultiLineComments(
+                     ReadText(file.path)));
+  for (const auto& incl:ParseIncludes(text)) {
     try {
       File& f = GetFile(SearchIncludePath(file.path, incl));
       if (f.state == FileProcessState::PROCESSING)
