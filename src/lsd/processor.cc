@@ -19,6 +19,8 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
   for (const auto& incl:lsd::ParseIncludes(text)) {
     try {
       File& f = GetFile(SearchIncludePath(file.path, incl));
+      if (f.state == FileProcessState::PROCESSING)
+        throw IncludeError("Cycle", file.path, incl);
       ProcessFile(f);
       file.files.push_back(&f);
     } catch (const IncludeError& e) {
