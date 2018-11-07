@@ -60,8 +60,13 @@ int main(int argc, char* argv[]) {
       p.AddIncludeDir(arg);
     }
 
-    for (const auto& arg:filesarg.getValue()) {
-      p.PrintFile(p.ProcessFile(p.GetFile(arg)));
+    auto files = filesarg.getValue();
+    if (files.size()) {
+      for (const auto& arg:files) {
+        p.PrintFile(arg);
+      }
+    } else {
+      p.PrintFile(fs::current_path());
     }
   } catch (ArgException &e) {
     std::cerr << "error: " << e.error() << " for arg " << e.argId()

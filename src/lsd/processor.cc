@@ -81,6 +81,26 @@ lsd::File& lsd::Processor::GetFile(const fs::path& path) {
   return *out;
 }
 
+void lsd::Processor::PrintFile(const fs::path& path) {
+  if (!fs::exists(path)) {
+    std::cerr << "Cannot access " << path << ": No such file or directory"
+              << std::endl;
+    return;
+  }
+  if (fs::is_directory(path)) {
+    std::regex re(".*\\.(h|hpp|hxx|c|cc|cpp|cxx)$",
+                  std::regex_constants::icase);
+    for (fs::recursive_directory_iterator it(path), end; it != end; ++it) {
+      std::string name = it->path().filename().string();
+      if (std::regex_match(name, re)) {
+        PrintFile(ProcessFile(GetFile(it->path())));
+      }
+    }
+  } else {
+    PrintFile(ProcessFile(GetFile(path)));
+  }
+}
+
 std::string lsd::ReadText(const fs::path& path) {
   std::ifstream t(path);
   std::stringstream buffer;
