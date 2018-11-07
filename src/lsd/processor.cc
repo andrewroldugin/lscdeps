@@ -74,8 +74,9 @@ lsd::File& lsd::Processor::GetFile(const fs::path& path) {
   std::string abs_path_str = abs_path.string();
   auto iter = files_.find(abs_path_str);
   if (iter == files_.end()) {
-    files_[abs_path_str] = std::make_unique<File>(abs_path);
-    out = files_[abs_path_str].get();
+    auto f = std::make_unique<File>(abs_path);
+    out = f.get();
+    files_[abs_path_str] = std::move(f);
   } else {
     out = iter->second.get();
   }
