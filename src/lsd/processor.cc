@@ -14,8 +14,8 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
   file.state = FileProcessState::PROCESSING;
 
   std::string text = RemoveSingleLineComments(
-                     RemoveMultiLineComments(
-                     ReadText(file.path)));
+					      RemoveMultiLineComments(
+								      ReadText(file.path)));
   for (const auto& incl:ParseIncludes(text)) {
     try {
       File& f = GetFile(SearchIncludePath(file.path, incl));
@@ -36,7 +36,7 @@ void lsd::Processor::PrintFile(const lsd::File& f, const std::string& indent) {
   for (auto ff:f.files) {
     PrintFile(*ff, indent + tab_);
   }
- }
+}
 
 fs::path lsd::Processor::SearchIncludePath(const fs::path& path,
                                            const std::string& include) {
@@ -142,15 +142,15 @@ std::vector<std::string> lsd::ReadLines(const fs::path& path) {
 }
 
 std::vector<std::string> lsd::ParseIncludes(const std::string& s) {
-   std::smatch match;
-   std::regex regex("#\\s*include\\s*([\"<]{1}[\\w\\s/.]+[\">]{1})");
-   auto iter = s.begin();
-   std::vector<std::string> out;
-   while (std::regex_search(iter, s.end(), match, regex)) {
-     out.push_back(match[1]);
-     iter = match[0].second;
-   }
-   return out;
+  std::smatch match;
+  std::regex regex("#\\s*include\\s*([\"<]{1}[\\w\\s/.]+[\">]{1})");
+  auto iter = s.begin();
+  std::vector<std::string> out;
+  while (std::regex_search(iter, s.end(), match, regex)) {
+    out.push_back(match[1]);
+    iter = match[0].second;
+  }
+  return out;
 }
 
 std::string lsd::RemoveMultiLineComments(const std::string& s) {
