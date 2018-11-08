@@ -2,7 +2,6 @@
 #define LSD_FILE_H
 
 #include <filesystem>
-#include <memory>
 #include <string>
 #include <vector>
 
