@@ -1,18 +1,30 @@
 #ifndef LSD_FILE_H
 #define LSD_FILE_H
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
 
+namespace fs = std::filesystem;
+
 namespace lsd {
-  class File;
+  struct File;
+  enum class FileProcessState;
 }
 
+enum class lsd::FileProcessState {
+  STANDBY,
+  PROCESSING,
+  PROCESSED
+};
+
 struct lsd::File {
-  std::string path;
-  std::vector<std::unique_ptr<lsd::File>> files;
-  File(const std::string&);
+  int counter = 0;
+  FileProcessState state = FileProcessState::STANDBY;
+  fs::path path;
+  std::vector<const File*> files;
+  File(const fs::path&);
 };
 
 #endif  // LSD_FILE_H
