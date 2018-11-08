@@ -13,7 +13,7 @@ PRJ = lsd
 TESTS = $(PRJ)_tests
 CP = cp $< $@
 CXXFLAGS = -Og -Wextra -Wall -Isrc -Ithird_party/tclap/include -std=c++1z
-LDLIBS = -lgtest -lstdc++fs -lstdc++
+LDLIBS = -lstdc++fs -lstdc++
 OBJ = src/lsd/processor.o src/lsd/file.o src/lsd/include_error.o
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
@@ -37,6 +37,7 @@ test: $(TESTS)
 
 src/main: src/main.o $(OBJ)
 
+src/main_tests: LDLIBS += -lgtest
 src/main_tests: src/main_tests.o src/lsd/processor_test.o $(OBJ)
 
 clean:
