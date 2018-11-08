@@ -13,7 +13,7 @@ PRJ = a
 TESTS = $(PRJ)_tests
 CP = cp $< $@
 CXXFLAGS = -Og -Wextra -Wall -Isrc -std=c++1z
-LDLIBS = -lgtest -lstdc++
+LDLIBS = -lstdc++
 GCC_CXXFLAGS =
 CLANG_CXXFLAGS =
 
@@ -30,6 +30,8 @@ $(PRJ): src/main
 
 $(TESTS): src/main_tests
 	$(CP)
+
+src/main_tests: LDLIBS += -lgtest
 
 test: $(TESTS)
 	@./$<
