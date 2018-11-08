@@ -37,7 +37,7 @@ test: $(TESTS)
 
 src/main: src/main.o $(OBJ)
 
-src/main_tests: src/main_tests.o $(OBJ)
+src/main_tests: src/main_tests.o src/lsd/processor_test.o $(OBJ)
 
 clean:
 	find src -name *.o -delete
