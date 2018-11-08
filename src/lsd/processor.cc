@@ -14,8 +14,8 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
   file.state = FileProcessState::PROCESSING;
 
   std::string text = RemoveSingleLineComments(
-					      RemoveMultiLineComments(
-								      ReadText(file.path)));
+                     RemoveMultiLineComments(
+                     ReadText(file.path)));
   for (const auto& incl:ParseIncludes(text)) {
     try {
       File& f = GetFile(SearchIncludePath(file.path, incl));
@@ -32,7 +32,7 @@ lsd::File& lsd::Processor::ProcessFile(lsd::File& file) {
 }
 
 void lsd::Processor::PrintFile(const lsd::File& f,
-			       const std::string& indent) const {
+                               const std::string& indent) const {
   std::cout << indent << f.path.filename().string() << std::endl;
   for (auto ff:f.files) {
     PrintFile(*ff, indent + tab_);
@@ -117,12 +117,12 @@ void lsd::Processor::PrintStat() const {
     }
   }
   std::sort(v.begin(), v.end(),
-	    [](auto a, auto b) -> bool{return a->counter > b->counter;});
+            [](auto a, auto b) -> bool{return a->counter > b->counter;});
   for_each(v.begin(), v.end(),
-	   [](auto f){
-	     std::cout << f->path.filename().string() << " - " << f->counter
-		       << std::endl;
-	   });
+           [](auto f){
+             std::cout << f->path.filename().string() << " - " << f->counter
+                       << std::endl;
+           });
 }
 
 std::string lsd::ReadText(const fs::path& path) {
