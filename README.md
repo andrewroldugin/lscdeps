@@ -7,7 +7,7 @@
 ### Requirements:
 It requires `gtest` & `gmock` to be installed on your system for building tests.
 
-To build only `lsd` delete `-lgtest` from `LDLIBS` in `Makefile` and run:
+To build only `lsd` you don't need them just run:
 ```
 make lsd
 ```
